@@ -1,0 +1,85 @@
+/* General Reset and Font */
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Roboto Mono", monospace;
+}
+body {
+    background-color: #1b1b2f;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+/* Navbar Styling */
+.navbar {
+    background-color: #333;
+    overflow: hidden;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.navbar a {
+    color: #fff;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.navbar a:hover {
+    background-color: #575757;
+    border-radius: 5px;
+}
+
+.calculator {
+    border: 1px solid #717377;
+    padding: 20px;
+    border-radius: 16px;
+    background: transparent;
+    box-shadow: 0px 3px 15px rgba(113, 115, 119, 0.5);
+}
+
+input {
+    width: 320px;
+    border: none;
+    padding: 24px;
+    margin: 10px;
+    background: transparent;
+    box-shadow: 0px 3px 15px rgba(84, 84, 84, 0.1);
+    font-size: 50px;
+    text-align: right;
+    cursor: pointer;
+    color: #ffffff;
+}
+
+input::placeholder {
+    color: #ffffff;
+}
+
+button {
+    border: none; 
+    width: 55px; 
+    height: 55px; 
+    margin: 10px; 
+    border-radius: 50%; 
+    background: transparent; 
+    color: #ffffff; 
+    font-size: 20px; 
+    box-shadow: -4px 3px rgba(255, 255, 255, 0.1); 
+    cursor: pointer;
+}
+
+.equalbtn {
+    background-color: #fb7c14;
+}
+
+.operator {
+    color: #6dee0a;
+}

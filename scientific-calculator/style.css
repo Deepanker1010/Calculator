@@ -1,0 +1,98 @@
+/* General Reset and Font */
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Roboto Mono", monospace;
+}
+
+body {
+    background-color: #1b1b2f;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Navbar Styling */
+.navbar {
+    background-color: #333;
+    overflow: hidden;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    margin-bottom: 8px;
+}
+
+.navbar a {
+    color: #fff;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.navbar a:hover {
+    background-color: #575757;
+    border-radius: 5px;
+}
+
+/* Calculator Styling */
+.calculator {
+    border: 1px solid #717377;
+    padding: 20px;
+    border-radius: 16px;
+    background: transparent;
+    box-shadow: 0px 3px 15px rgba(113, 115, 119, 0.5);
+    width: 398px; /* Consistent width */
+}
+
+input[type="text"] {
+    width: 100%; /* Adjusted for consistent width */
+    border: none;
+    padding: 10px;
+    margin: 10px 0; /* Adjusted margin */
+    background: transparent;
+    box-shadow: 0px 3px 15px rgba(84, 84, 84, 0.1);
+    font-size: 50px;
+    text-align: right;
+    cursor: pointer;
+    color: #ffffff;
+}
+
+input[type="text"]::placeholder {
+    color: #ffffff;
+}
+
+button, .buttons input[type="button"] { /* Combined button styles */
+    border: none;
+    width: 55px;
+    height: 55px;
+    margin: 2px;
+    border-radius: 50%;
+    background: transparent;
+    color: #ffffff;
+    font-size: 15px;
+    box-shadow: -4px 3px rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+}
+
+.equalbtn, .buttons input#equal {
+    background-color: #fb7c14;
+}
+
+.operator, .buttons input#percent, .buttons input#pow, .buttons input#sin, .buttons input#cos, .buttons input#tan, .buttons input#pi, .buttons input#e, .buttons input#log {
+    color: #6dee0a;
+}
+
+.buttons{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.buttons input#clear, .buttons input#erase{
+    color: #f05454;
+}
