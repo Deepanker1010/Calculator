@@ -1,75 +1,98 @@
-let equal_pressed = 0;
-let button_input = document.querySelectorAll(".input-button");
-let input = document.getElementById("input");
-let equal = document.getElementById("equal");
-let clear = document.getElementById("clear");
-let erase = document.getElementById("erase");
-let percent = document.getElementById("percent");
+// Initialize variables
+let isEqualPressed = 0;
 let scientificFunctionClicked = false;
 
+// Get HTML elements
+const inputField = document.getElementById("input");
+const buttons = document.querySelectorAll(".input-button");
+const equalButton = document.getElementById("equal");
+const clearButton = document.getElementById("clear");
+const eraseButton = document.getElementById("erase");
+const percentButton = document.getElementById("percent");
+
+// Clear input field on window load
 window.onload = () => {
-    input.value = "";
+    inputField.value = "";
 };
 
-button_input.forEach((button_class) => {
-    button_class.addEventListener("click", () => {
-        if (equal_pressed == 1) {
-            input.value = "";
-            equal_pressed = 0;
-        }
-        input.value += button_class.value;
-    });
+// Attach event listeners to buttons
+buttons.forEach(button => {
+    button.addEventListener("click", handleButtonClick);
 });
+percentButton.addEventListener("click", handlePercentClick);
+equalButton.addEventListener("click", handleEqualClick);
+clearButton.addEventListener("click", () => inputField.value = "");
+eraseButton.addEventListener("click", handleEraseClick);
+document.getElementById("sin").addEventListener("click", () => setScientificFunction("sin"));
+document.getElementById("cos").addEventListener("click", () => setScientificFunction("cos"));
+document.getElementById("tan").addEventListener("click", () => setScientificFunction("tan"));
+document.getElementById("e").addEventListener("click", () => setScientificFunction("e"));
+document.getElementById("log").addEventListener("click", () => setScientificFunction("log"));
+document.getElementById("pi").addEventListener("click", () => inputField.value = 3.14);
+document.getElementById("pow").addEventListener("click", handlePowerClick);
 
-percent.addEventListener("click", () => {
-    input.value = input.value.substr(0, input.value.length - 1);
-    let val = input.value;
-    let num = [];
-    for (let i = val.length - 1; i >= 0; i--) {
-        if (/[0-9]/.test(val[i])) {
-            input.value = input.value.substr(0, i);
-            num.unshift(val[i]);
-        } else {
-            break;
-        }
+// Handle button clicks
+function handleButtonClick(event) {
+    if (isEqualPressed) {
+        inputField.value = "";
+        isEqualPressed = 0;
     }
-    input.value += parseInt(num.join("")) / 100;
-});
+    inputField.value += event.target.value;
+}
 
-equal.addEventListener("click", () => {
+// Handle percent button click
+function handlePercentClick() {
+    let val = inputField.value;
+    let numStr = "";
+    let i = val.length - 1;
+
+    // Extract the number at the end of the input value
+    while (i >= 0 && /[0-9.]/.test(val[i])) {
+        numStr = val[i] + numStr;
+        i--;
+    }
+
+    if (numStr) {
+        // Remove the extracted number from the input value
+        inputField.value = val.substr(0, i + 1);
+        // Divide the extracted number by 100 and append the result to the input value
+        inputField.value += (parseFloat(numStr) / 100).toString();
+    }
+}
+
+// Handle equal button click
+function handleEqualClick() {
     if (!scientificFunctionClicked) {
-        equal_pressed = 1;
-        let inp_val = input.value;
+        isEqualPressed = 1;
+        let inp_val = inputField.value;
         try {
             let solution = eval(inp_val);
-            if (Number.isInteger(solution)) {
-                input.value = solution;
-            } else {
-                input.value = solution.toFixed(2);
-            }
+            inputField.value = Number.isInteger(solution) ? solution : solution.toFixed(2);
         } catch (err) {
             alert("Error");
         }
     } else {
-        let resultArray = input.value.match(/^([a-z]+)\((.+)\)$/)?.slice(1);
-        const [method, value] = resultArray;
+        const [method, value] = inputField.value.match(/^([a-z]+)\((.+)\)$/)?.slice(1) || [];
         calculateSciFunction(method, value);
     }
     scientificFunctionClicked = false;
-});
+}
 
-clear.addEventListener("click", () => (input.value = ""));
-erase.addEventListener("click", () => {
-    input.value = input.value.substr(0, input.value.length - 1);
-});
+// Handle erase button click
+function handleEraseClick() {
+    inputField.value = inputField.value.slice(0, -1);
+}
 
+// Set scientific function
+function setScientificFunction(func) {
+    scientificFunctionClicked = true;
+    inputField.value = `${func}(${inputField.value})`;
+}
+
+// Calculate scientific function result
 function calculateSciFunction(func, value) {
     let result;
-    let expressionArray = value.split("+").map(parseFloat);
-    const inputValue = expressionArray.reduce(
-        (acc, currentValue) => acc + currentValue,
-        0
-    );
+    const inputValue = value.split("+").map(parseFloat).reduce((acc, cur) => acc + cur, 0);
 
     switch (func) {
         case "sin":
@@ -88,50 +111,14 @@ function calculateSciFunction(func, value) {
             result = Math.log(inputValue);
             break;
         default:
-            break;
+            alert("Invalid Input");
+            return;
     }
 
-    if (result !== undefined) {
-        input.value = result.toFixed(2);
-    } else {
-        alert("Invalid Input");
-    }
+    inputField.value = result.toFixed(2);
 }
 
-document.getElementById("sin").addEventListener("click", () => {
-    scientificFunctionClicked = true;
-    input.value = "sin(" + input.value + ")";
-});
-
-document.getElementById("cos").addEventListener("click", () => {
-    scientificFunctionClicked = true;
-    input.value = "cos(" + input.value + ")";
-});
-
-document.getElementById("tan").addEventListener("click", () => {
-    scientificFunctionClicked = true;
-    input.value = "tan(" + input.value + ")";
-});
-
-document.getElementById("e").addEventListener("click", () => {
-    scientificFunctionClicked = true;
-    input.value = "e(" + input.value + ")";
-});
-
-document.getElementById("log").addEventListener("click", () => {
-    scientificFunctionClicked = true;
-    input.value = "log(" + input.value + ")";
-});
-
-document.getElementById("pi").addEventListener("click", () => {
-    scientificFunctionClicked = true;
-    input.value = 3.14;
-});
-
-document.getElementById("pow").addEventListener("click", () => {
-    if (input.value) {
-        input.value = Math.pow(input.value, 2);
-    } else {
-        input.value = Math.pow(0, 2);
-    }
-});
+// Handle power button click
+function handlePowerClick() {
+    inputField.value = Math.pow(parseFloat(inputField.value) || 0, 2);
+}
